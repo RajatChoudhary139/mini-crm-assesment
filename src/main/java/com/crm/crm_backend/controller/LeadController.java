@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import com.crm.crm_backend.entity.Lead;
 import com.crm.crm_backend.service.LeadService;
 
+import com.crm.crm_backend.entity.Customer;
+
 @RestController
 @RequestMapping("/api/leads")
 @CrossOrigin
@@ -21,9 +23,10 @@ public class LeadController {
 
 
     @PostMapping
-    public Lead createLead(@RequestBody Lead lead) {
+    public Lead createLead(@jakarta.validation.Valid @RequestBody Lead lead) {
         return leadService.createLead(lead);
     }
+    
 
 
     @GetMapping
@@ -41,7 +44,7 @@ public class LeadController {
     @PutMapping("/{id}")
     public Lead updateLead(
             @PathVariable Long id,
-            @RequestBody Lead lead) {
+            @jakarta.validation.Valid @RequestBody Lead lead) {
 
         return leadService.updateLead(id, lead);
     }
@@ -53,5 +56,39 @@ public class LeadController {
         leadService.deleteLead(id);
 
         return "Lead deleted successfully";
+    }
+    
+    @GetMapping("/search/name")
+    public List<Lead> searchByFullName(
+            @RequestParam String fullName) {
+
+        return leadService.searchByFullName(fullName);
+    }
+
+    @GetMapping("/search/email")
+    public List<Lead> searchByEmail(
+            @RequestParam String email) {
+
+        return leadService.searchByEmail(email);
+    }
+
+    @GetMapping("/search/company")
+    public List<Lead> searchByCompany(
+            @RequestParam String company) {
+
+        return leadService.searchByCompany(company);
+    }
+    
+    @GetMapping("/filter/status")
+    public List<Lead> filterByStatus(
+            @RequestParam String status) {
+
+        return leadService.filterByStatus(status);
+    }
+    
+    @PostMapping("/{id}/convert")
+    public Customer convertLeadToCustomer(@PathVariable Long id) {
+
+        return leadService.convertLeadToCustomer(id);
     }
 }

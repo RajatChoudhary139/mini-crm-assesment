@@ -1,7 +1,7 @@
 package com.crm.crm_backend.controller;
 
 import java.util.List;
-
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import com.crm.crm_backend.entity.Task;
@@ -21,7 +21,7 @@ public class TaskController {
 
 
     @PostMapping
-    public Task createTask(@RequestBody Task task) {
+    public Task createTask(@Valid@RequestBody Task task) {
         return taskService.createTask(task);
     }
 
@@ -41,7 +41,7 @@ public class TaskController {
     @PutMapping("/{id}")
     public Task updateTask(
             @PathVariable Long id,
-            @RequestBody Task task) {
+            @Valid @RequestBody Task task) {
 
         return taskService.updateTask(id, task);
     }
